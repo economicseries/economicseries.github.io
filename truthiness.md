@@ -1,4 +1,4 @@
-In the draft, a filter expression is a predicate written within "[?" and "]". It evaluates to true or false (or error), and determines whether nodes are selected.
+In the draft, a filter expression is a predicate written within "[?" and "]". It evaluates to true or false (or error), and determines whether nodes get selected from the primary query.
 
 To evaluate a filter expression, it is necessary to define rules to derive the truth value for an expression.  
 
@@ -8,14 +8,14 @@ Given the document
 [{"a": true},{"a":false}]
 ```
 
-the draft regards queries such as
+the draft regards the filter expressions appearing in the queries
  
 ```
 $[?(@.a)]
 $[?(@.c)]
 ``` 
 
-as existence tests, the two queries produce
+to be existence tests, the two queries produce
 
 ```
 [{"a": true},{"a": false}]
@@ -24,6 +24,14 @@ as existence tests, the two queries produce
 
 respectively.
 
+
+The motivation for deriving the truth value for `@.a` and `@.c` as existence tests 
+originates with [Goessner's 2007 article](https://goessner.net/articles/JsonPath/),
+in particular, from this line
+
+XPath           |JSONPath               |Result
+----------------|-----------------------|--------------------------------
+//book[isbn]    |$..book[?(@.isbn)]     |filter all books with isbn number
 
 
 While the need to derive the truth value for an expression is present in all languages, the rules differ.
