@@ -69,19 +69,19 @@ All of these examples use the JSON document
 
 ### Draft
 
-Query: $[?(@.foo)]
+Query: `$[?(@.foo)]`
 
 Result: `[{"foo": true},{"foo": false}]`
 
-Query: $[?(@.bar)]
+Query: `$[?(@.bar)]`
 
-Result: []
+Result: `[]`
 
-Query: $[?(true)]
+Query: `$[?(true)]`
 
 Result: Invalid
 
-Query: [`false`]
+Query: `[`false`]`
 
 Result: Invalid
 
