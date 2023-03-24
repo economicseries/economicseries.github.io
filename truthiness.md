@@ -1,3 +1,5 @@
+## Background
+
 In the draft, a filter expression is a predicate written within "[?" and "]". 
 It evaluates to true or false (or error), and determines whether nodes get selected from the primary query.
 
@@ -39,8 +41,8 @@ Thereafter, implementations split.
 - Implementations that used JavaScript (or another dynamic language) for 
 evaluating filter expressions evaluated `@.foo` and `@.bar` to truth values 
 according to the rules of that language. These included Goessner's 
-JavaScript implementation. While rules for defining truth value differ
-between languages, they generally agree that `@.foo` evaluated to 
+JavaScript implementation. While rules for defining truth value differed
+between languages, they generally agreed that `@.foo` evaluated to 
 the value part of a name-value pair matching on 'foo', 
 and that a value of `true` evaluated to true and a value of 
 `false` evaluated to false.    
@@ -48,124 +50,94 @@ and that a value of `true` evaluated to true and a value of
 - 2011 [Jayway JSONPath](https://github.com/json-path/JsonPath) implemented it's own expression language and followed
 Goessner's original suggestion, as did [NewtonSoft Json.Net](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm).  
 
+As noted, the draft decided to follow Goessner's original suggestion, and be consistent with
+Jayway JSONPath and NewtonSoft Json.Net. 
 
-While the need to derive the truth value for an expression is present in all languages, the rules differ.
+This comment proposes that that decision be revisited for the following reasons.
+
+- It's inconsistent with other JSON query languages including [XPath 3.1](https://www.w3.org/TR/xpath-31/), 
+[JMESPath](https://jmespath.org/specification.html), and [JSONata](https://jsonata.org/).
 
 
-https://www.w3.org/TR/xpath-31/#id-filter-expression
+## It's inconsistent with other JSON query languages.
 
-[{"foo": true},{"bar":false}]
+All of these examples use the JSON document
 
-XPath 3.1
+```json
+[{"foo": true},{"foo":false}]
+```
 
-Query: ?*[?foo]
-
-Result: {"foo": true}
-
-Query: ?*[?bar]
-
-Result: 
-
-Query: ?*[?c]
-
-Result: 
-
-Query: ?*[true]
-
-Result: {"foo": true},{"bar":false}
-
-Query: ?*[false]
-
-Result: 
-
-JMESPath
-
-Query: [?foo]
-
-Result: {"foo": true}
-
-Query: [?bar]
-
-Result: 
-
-Query: [?c]
-
-Result: 
-
-Query: [`true`]
-
-Result: [{"foo": true},{"bar":false}]
-
-Query: [`false`]
-
-Result: 
-
-JSONata
-
-Query: *[foo]
-
-Result: {"foo": true}
-
-Query: *[bar]
-
-Result: no match
-
-Query: *[c]
-
-Result: no match
-
-Query: *[true]
-
-Result: [{"foo": true},{"bar":false}]
-
-Query: *[false]
-
-Result: no match
-
-Goessner JSONPath
+### Draft
 
 Query: $[?(@.foo)]
 
-Result: [{"foo": true}]
+Result: `[{"foo": true},{"foo": false}]`
 
 Query: $[?(@.bar)]
 
 Result: []
 
-Query: $[?(@.c)]
-
-Result: []
-
 Query: $[?(true)]
 
-Result: [{"foo": true},{"bar":false}]
-
-Query: 
-
-Result: []
-
-Jayway JSONPath
-NewtonSoft Json.Net
-
-Query: $[?(@.foo)]
-
-Result: [{"foo": true}]
-
-Query: $[?(@.bar)]
-
-Result: [{"bar": false}]
-
-Query: $[?(@.c)]
-
-Result: []
-
-Query: $[?(true)]
-
-Result: Error
+Result: Invalid
 
 Query: [`false`]
 
-Result: Error
+Result: Invalid
+
+### XPath 3.1
+
+Query: `?*[?foo]`
+
+Result: `{"foo": true}`
+
+Query: `?*[?bar]`
+
+Result: No match
+
+Query: `?*[true]`
+
+Result: `{"foo": true}{"foo": false}`
+
+Query: `?*[false]`
+
+Result: No match
+
+### JMESPath
+
+Query: `[?foo]`
+
+Result: `[{"foo": true}]`
+
+Query: `[?bar]`
+
+Result: No match
+
+Query: ``[?`true`]``
+
+Result: `[{"foo": true},{"foo": false}]`
+
+Query: ``[?`false`]``
+
+Result: No match
+
+### JSONata
+
+Query: `*[foo]`
+
+Result: `{"foo": true}`
+
+Query: `*[bar]`
+
+Result: no match
+
+Query: `*[true]`
+
+Result: `[{"foo": true},{"foo":false}]`
+
+Query: `*[false]`
+
+Result: no match
 
 the predicate expression is coerced to an xs:boolean value, called the predicate truth value
 
