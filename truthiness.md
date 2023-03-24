@@ -1,4 +1,5 @@
-In the draft, a filter expression is a predicate written within "[?" and "]". It evaluates to true or false (or error), and determines whether nodes get selected from the primary query.
+In the draft, a filter expression is a predicate written within "[?" and "]". 
+It evaluates to true or false (or error), and determines whether nodes get selected from the primary query.
 
 To evaluate a filter expression, it is necessary to define rules to derive the truth value for an expression.  
 
@@ -12,7 +13,7 @@ the draft regards the filter expressions appearing in the queries
  
 ```
 $[?(@.a)]
-$[?(@.c)]
+$[?(@.b)]
 ``` 
 
 to be existence tests, the two queries produce
@@ -25,13 +26,23 @@ to be existence tests, the two queries produce
 respectively.
 
 
-The motivation for deriving the truth value for `@.a` and `@.c` as existence tests 
+The motivation for deriving the truth value for `@.a` and `@.b` as existence tests 
 originates with [Goessner's 2007 article](https://goessner.net/articles/JsonPath/),
 in particular, from this line
 
 XPath           |JSONPath               |Result
 ----------------|-----------------------|--------------------------------
 //book[isbn]    |$..book[?(@.isbn)]     |filter all books with isbn number
+
+Thereafter, implementations split. 
+
+- Implementations that used JavaScript (or another dynamic language) for 
+evaluating filter expressions evaluated `@.a` and `@.b` to truth values 
+according to the rules of that language. These included Goessner's 
+JavaScript implementation.  
+
+- 2011 Jayway JSONPath implemented it's own expression language and followed
+Goessner's original suggestion, as did NewtonSoft Json.Net.  
 
 
 While the need to derive the truth value for an expression is present in all languages, the rules differ.
