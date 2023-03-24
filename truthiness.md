@@ -3,30 +3,30 @@ It evaluates to true or false (or error), and determines whether nodes get selec
 
 To evaluate a filter expression, it is necessary to define rules to derive the truth value for an expression.  
 
-Given the document
+According to the rules in the draft, given the document
 
 ```json
-[{"a": true},{"a":false}]
+[{"foo": true},{"foo":false}]
 ```
 
-the draft regards the filter expressions appearing in the queries
+the filter expressions appearing in the queries
  
 ```
-$[?(@.a)]
-$[?(@.b)]
+$[?(@.foo)]
+$[?(@.bar)]
 ``` 
 
-to be existence tests, the two queries produce
+are existence tests, and these queries produce
 
 ```
-[{"a": true},{"a": false}]
+[{"foo": true},{"foo": false}]
 []
 ```
 
 respectively.
 
 
-The motivation for deriving the truth value for `@.a` and `@.b` as existence tests 
+The motivation for deriving the truth value for `@.foo` and `@.bar` as existence tests 
 originates with [Goessner's 2007 article](https://goessner.net/articles/JsonPath/),
 in particular, from this line
 
@@ -37,9 +37,11 @@ XPath           |JSONPath               |Result
 Thereafter, implementations split. 
 
 - Implementations that used JavaScript (or another dynamic language) for 
-evaluating filter expressions evaluated `@.a` and `@.b` to truth values 
+evaluating filter expressions evaluated `@.foo` and `@.bar` to truth values 
 according to the rules of that language. These included Goessner's 
-JavaScript implementation.  
+JavaScript implementation. While rules for defining truth value differ
+between languages, they generally agreed that a value of `true`
+evaluated to `true` and a value of `false` evaluated to false.    
 
 - 2011 Jayway JSONPath implemented it's own expression language and followed
 Goessner's original suggestion, as did NewtonSoft Json.Net.  
@@ -50,15 +52,15 @@ While the need to derive the truth value for an expression is present in all lan
 
 https://www.w3.org/TR/xpath-31/#id-filter-expression
 
-[{"a": true},{"b":false}]
+[{"foo": true},{"bar":false}]
 
 XPath 3.1
 
-Query: ?*[?a]
+Query: ?*[?foo]
 
-Result: {"a": true}
+Result: {"foo": true}
 
-Query: ?*[?b]
+Query: ?*[?bar]
 
 Result: 
 
@@ -68,7 +70,7 @@ Result:
 
 Query: ?*[true]
 
-Result: {"a": true},{"b":false}
+Result: {"foo": true},{"bar":false}
 
 Query: ?*[false]
 
@@ -76,11 +78,11 @@ Result:
 
 JMESPath
 
-Query: [?a]
+Query: [?foo]
 
-Result: {"a": true}
+Result: {"foo": true}
 
-Query: [?b]
+Query: [?bar]
 
 Result: 
 
@@ -90,7 +92,7 @@ Result:
 
 Query: [`true`]
 
-Result: [{"a": true},{"b":false}]
+Result: [{"foo": true},{"bar":false}]
 
 Query: [`false`]
 
@@ -98,11 +100,11 @@ Result:
 
 JSONata
 
-Query: *[a]
+Query: *[foo]
 
-Result: {"a": true}
+Result: {"foo": true}
 
-Query: *[b]
+Query: *[bar]
 
 Result: no match
 
@@ -112,7 +114,7 @@ Result: no match
 
 Query: *[true]
 
-Result: [{"a": true},{"b":false}]
+Result: [{"foo": true},{"bar":false}]
 
 Query: *[false]
 
@@ -120,11 +122,11 @@ Result: no match
 
 Goessner JSONPath
 
-Query: $[?(@.a)]
+Query: $[?(@.foo)]
 
-Result: [{"a": true}]
+Result: [{"foo": true}]
 
-Query: $[?(@.b)]
+Query: $[?(@.bar)]
 
 Result: []
 
@@ -134,7 +136,7 @@ Result: []
 
 Query: $[?(true)]
 
-Result: [{"a": true},{"b":false}]
+Result: [{"foo": true},{"bar":false}]
 
 Query: 
 
@@ -143,13 +145,13 @@ Result: []
 Jayway JSONPath
 NewtonSoft Json.Net
 
-Query: $[?(@.a)]
+Query: $[?(@.foo)]
 
-Result: [{"a": true}]
+Result: [{"foo": true}]
 
-Query: $[?(@.b)]
+Query: $[?(@.bar)]
 
-Result: [{"b": false}]
+Result: [{"bar": false}]
 
 Query: $[?(@.c)]
 
