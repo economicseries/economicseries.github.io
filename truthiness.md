@@ -45,8 +45,8 @@ the value part of a name-value pair matching on 'foo',
 and that a value of `true` evaluated to true and a value of 
 `false` evaluated to false.    
 
-- 2011 Jayway JSONPath implemented it's own expression language and followed
-Goessner's original suggestion, as did NewtonSoft Json.Net.  
+- 2011 [Jayway JSONPath](https://github.com/json-path/JsonPath) implemented it's own expression language and followed
+Goessner's original suggestion, as did [NewtonSoft Json.Net](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm).  
 
 
 While the need to derive the truth value for an expression is present in all languages, the rules differ.
