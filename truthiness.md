@@ -1,7 +1,9 @@
 ## Background
 
 In the draft, a filter expression is a predicate written within "[?" and "]". 
-It evaluates to true or false (or error), and determines whether nodes get selected from the primary query.
+It evaluates to true or false (or invalid); the nodes for which the predicate 
+truth value is true are selected, the ones for which the predicate truth value 
+is false are discarded.
 
 To evaluate a filter expression, it is necessary to define rules to derive the truth value for an expression.  
 
@@ -81,7 +83,7 @@ Query: `$[?(true)]`
 
 Result: Invalid
 
-Query: `[`false`]`
+Query: `[false]`
 
 Result: Invalid
 
