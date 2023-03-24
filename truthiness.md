@@ -1,6 +1,30 @@
-In the draft, a filter expression is a predicate written within "[?" and "]". It evaluates to true or false (or error), and determines whether nodes are selected. A filter expression in the draft is analogous to a conditional in programming languages.
+In the draft, a filter expression is a predicate written within "[?" and "]". It evaluates to true or false (or error), and determines whether nodes are selected.
 
-To evaluate a predicate (or conditional), it is necessary to define rules to derive the truth value for an expression.  
+To evaluate a filter expression, it is necessary to define rules to derive the truth value for an expression.  
+
+Given the document
+
+```json
+[{"a": true},{"a":false}]
+```
+
+the draft regards queries such as
+ 
+```
+$[?(@.a)]
+$[?(@.c)]
+``` 
+
+as existence tests, the two queries produce
+
+```
+[{"a": true},{"a": false}]
+[]
+```
+
+respectively.
+
+
 
 While the need to derive the truth value for an expression is present in all languages, the rules differ.
 
