@@ -40,8 +40,10 @@ Thereafter, implementations split.
 evaluating filter expressions evaluated `@.foo` and `@.bar` to truth values 
 according to the rules of that language. These included Goessner's 
 JavaScript implementation. While rules for defining truth value differ
-between languages, they generally agreed that a value of `true`
-evaluated to `true` and a value of `false` evaluated to false.    
+between languages, they generally agree that `@.foo` evaluated to 
+the value part of a name-value pair matching on 'foo', 
+and that a value of `true` evaluated to true and a value of 
+`false` evaluated to false.    
 
 - 2011 Jayway JSONPath implemented it's own expression language and followed
 Goessner's original suggestion, as did NewtonSoft Json.Net.  
