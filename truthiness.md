@@ -1,7 +1,7 @@
 ## Background
 
 In the draft, a filter expression is a predicate written within "[?" and "]". 
-It evaluates to true or false (or invalid); the nodes for which the predicate 
+It evaluates to true or false (or invalid.) The nodes for which the predicate 
 truth value is true are selected, the ones for which the predicate truth value 
 is false are discarded.
 
